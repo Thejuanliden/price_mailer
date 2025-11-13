@@ -1,0 +1,5 @@
+ git push -u origin main
+Username for 'https://github.com': Thejuanliden
+Password for 'https://Thejuanliden@github.com':
+remote: Invalid username or token. Password authentication is not supported for Git operations.
+fatal: Authentication failed for 'https://github.com/Thejuanliden/price_mailer.git/'
