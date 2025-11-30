@@ -1,10 +1,70 @@
 <!DOCTYPE html>
 <title>Hello from Flask</title>
 
-<div>
-   {% for hour in priser %}
-       <p> {{ priser[0]['SEK_per_kWh'] }} </p>
-   {% endfor %}
-<h1>Hello, World!</h1>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <h1>CPU Temperature</h1>
+    <div style="width:80%; margin:0 auto;">
+        <canvas id="PriceChart_today"></canvas>
+        <canvas id="PriceChart_tomorrow"></canvas>
+    </div>
+
+    <script>
+        var ctx = document.getElementById('PriceChart_today');
+        var chart = new Chart(ctx, {
+
+            data: {
+                labels: {{ times|tojson }},
+                datasets: [{
+                    type: 'bar',
+                    label: 'Electricity Prices Idag (SEK)',
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    data: {{ prices|tojson }}
+                }, {
+                    type: 'line',
+                    label: '4 hours average (SEK)',
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    data: {{ moving_average_4|tojson }}
+                }, {
+                    type: 'line',
+                    label: '8 hours average (SEK)',
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    data: {{ moving_average_8|tojson }}
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: false
+                    }
+                }
+            }
+        });
+        var ctx = document.getElementById('PriceChart_tomorrow');
+        var chart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: {{ times|tojson }},
+                datasets: [{
+                    label: 'Electricity Prices Imorgon (SEK)',
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    data: {{ prices_tomorrow|tojson }}
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: false
+                    }
+                }
+            }
+        });
+    </script>
+
 
 
